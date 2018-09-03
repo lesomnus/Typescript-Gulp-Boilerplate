@@ -8,13 +8,15 @@ gulp.task('clean', ()=>gulp
     .pipe(clean())
 );
 
-gulp.task('build', ['clean'], ()=>{
+gulp.task('build-scripts', ()=>{
     var tsProject = ts
         .createProject('tsconfig.json');
 
-    tsProject.src()
+    return tsProject.src()
         .pipe(tsProject())
         .js.pipe(gulp.dest('build'));
 });
 
-gulp.task('default', ['build']);
+gulp.task('build', gulp.series('clean', 'build-scripts'));
+
+gulp.task('default', gulp.series('build'));
